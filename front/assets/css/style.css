@@ -1,0 +1,524 @@
+body {
+  background-image: url("../../public/img/background.jpg");
+  background-attachment: fixed;
+  font-family: arial, Helvetica, sans-serif;
+  margin: 0;
+  position: relative;
+  min-height: 100vh;
+}
+
+header {
+  display: flex;
+  background: #000;
+  padding: 30px;
+  justify-content: space-between;
+}
+header #activeUserDisplay {
+  color: white;
+}
+header .logo {
+  /* width: 18%; */
+  width: fit-content;
+}
+header nav {
+  /* width: 77%; */
+  width: fit-content;
+  text-align: center;
+}
+header nav ul {
+  list-style-type: none;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
+header nav ul li {
+  margin-right: 20px;
+}
+header nav ul li a {
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: "Arial Narrow Bold", sans-serif;
+  padding: 56px 10px;
+  color: #fff;
+  transition: ease-in-out 0.2s;
+  font-size: 15px;
+  font-weight: bold;
+  position: relative;
+}
+header nav ul li a:hover::before {
+  width: 82%;
+  background-color: #ffcb08; /* Couleur de la bordure lors du survol */
+}
+header nav ul li a::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  width: 0;
+  height: 5px;
+  background-color: transparent;
+  transition: width 0.1s ease-in-out;
+}
+header nav ul li .activeLink {
+  color: #ffcb08;
+}
+header .counter {
+  /* width: 5%; */
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+header .counter .catch {
+  text-align: center;
+  background-color: green;
+  color: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  padding: 5px;
+  margin: 0;
+}
+header .counter .escape {
+  text-align: center;
+  background-color: red;
+  color: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  padding: 5px;
+  margin-left: 5px;
+}
+
+main-footer {
+  background: #003da1;
+  display: block;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+main-footer footer {
+  padding: 25px;
+  display: flex;
+  width: 980px;
+  justify-content: space-between;
+  margin: 0 auto;
+  color: white;
+}
+main-footer footer .users {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+main-footer footer .users .userCard {
+  width: 25%;
+  text-transform: uppercase;
+  color: #ffcb08;
+  position: relative;
+  text-align: center;
+  padding: 15px;
+  background-color: #003eaf;
+  border-radius: 15px;
+  cursor: pointer;
+}
+main-footer footer .users .userCard img {
+  width: 35px;
+}
+main-footer footer .users .userCard h4 {
+  margin: 10px 0 10px 0;
+}
+main-footer footer .users .userCard .nbrPkm {
+  text-transform: none;
+  color: white;
+}
+main-footer footer .users .currentUser {
+  background-color: #ffcb08;
+  border-radius: 15px;
+  color: black;
+}
+main-footer footer .users .currentUser .nbrPkm {
+  text-transform: none;
+  color: #555;
+}
+
+#reloadWildList {
+  display: block;
+  position: absolute;
+  right: 50%;
+  transform: translate(50%);
+  padding: 10px 25px;
+  background: #ffcb08;
+  border: 8px solid #fff;
+  top: 145px;
+  border-radius: 25px 25px 0 0;
+  border-bottom: 0;
+  z-index: 0;
+  cursor: pointer;
+}
+#reloadWildList:hover {
+  background: #ffab08;
+}
+#reloadWildList .rotate-img {
+  width: 30px;
+}
+
+#reloadWildList.inactive {
+  background: rgb(255, 90, 90);
+  cursor: default;
+}
+#reloadWildList.inactive:hover {
+  background: red;
+}
+
+.rotate {
+  animation: rotation 1.5s linear 1;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+wild-list {
+  background: white;
+  padding: 10px 20px;
+  display: block;
+  width: 980px;
+  margin: 75px auto 150px auto;
+  border-radius: 25px;
+  padding: 25px 25px;
+  box-shadow: 0px 0px 30px black;
+  margin-bottom: 200px;
+}
+wild-list table {
+  border-spacing: 1px;
+  width: 100%;
+}
+wild-list table thead {
+  background-color: #ffcb08;
+}
+wild-list table thead th {
+  padding: 20px;
+  text-align: left;
+}
+wild-list table thead th:first-child {
+  border-radius: 20px 0 0 0;
+}
+wild-list table thead th:last-child {
+  border-radius: 0 20px 0 0;
+}
+wild-list table tbody {
+  background-color: #efefef;
+}
+wild-list table tbody tr {
+  cursor: pointer;
+}
+wild-list table tbody tr td {
+  padding: 20px;
+  text-align: left;
+  line-height: 35px;
+}
+wild-list table tbody tr td:last-child {
+  border-right: 0;
+}
+wild-list table tbody tr:nth-of-type(odd) {
+  background-color: #efefef;
+}
+wild-list table tbody tr:nth-of-type(even) {
+  background-color: #ddd;
+}
+wild-list table tbody tr:hover {
+  background-color: rgba(255, 203, 8, 0.3);
+}
+
+.captureModal {
+  position: fixed;
+  padding: 30px;
+  background: white;
+  top: 15%;
+  right: 50%;
+  transform: translate(50%);
+  width: auto;
+  border-radius: 25px;
+  box-shadow: 0px 0px 30px black;
+  text-align: center;
+}
+.captureModal div div {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.captureModal p {
+  background-color: #ddd;
+  padding: 10px;
+  text-align: center;
+  margin: 0;
+  border-radius: 10px;
+}
+.captureModal p:first-child {
+  background-color: lightgreen;
+}
+.captureModal p.modal-msg {
+  margin-bottom: 15px;
+}
+.captureModal img {
+  max-width: 400px;
+}
+.captureModal #btn-back {
+  width: 45px;
+  cursor: pointer;
+  transition: filter 0.3s ease;
+  filter: invert(72%) sepia(14%) saturate(5075%) hue-rotate(309deg) brightness(101%) contrast(88%);
+}
+.captureModal #btn-back:hover {
+  filter: invert(15%) sepia(49%) saturate(7483%) hue-rotate(359deg) brightness(102%) contrast(125%);
+}
+.captureModal #btn-capture {
+  border: 0;
+  color: #f08080;
+  float: right;
+  font-size: 45px;
+  background-color: white;
+  width: 45px;
+  padding: 0;
+  cursor: pointer;
+}
+.captureModal #btn-capture:hover {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+.captureModal #btn-capture img {
+  width: 47px;
+  margin-top: 10px;
+}
+
+.pokedex {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  position: relative;
+  justify-content: space-evenly;
+  margin: 0 160px 160px 160px;
+}
+.pokedex .pokemonCard {
+  margin: 5px 0 25px 15px;
+}
+.pokedex .pokemonCard .cardTitle {
+  background-color: #faf9f6;
+  width: 220px;
+  display: flex;
+  justify-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 25px 25px 0 0;
+  border: solid;
+}
+.pokedex .pokemonCard .cardTitle .pokemonId {
+  float: left;
+}
+.pokedex .pokemonCard .cardTitle .pokemonName {
+  text-align: center;
+}
+.pokedex .pokemonCard .cardTitle .pokedexBtn {
+  width: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pokedex .pokemonCard .cardTitle .pokedexBtn .favoris {
+  height: 15px;
+  cursor: pointer;
+}
+.pokedex .pokemonCard .cardTitle .pokedexBtn .delete {
+  height: 19px;
+  cursor: pointer;
+}
+.pokedex .pokemonCard .cardTitle .pokedexBtn .active {
+  margin: 2px 0 2px 0;
+}
+.pokedex .pokemonCard .cardTitle .pokedexBtn .hidden {
+  display: none;
+}
+.pokedex .pokemonCard .img-pokemon {
+  height: 240px;
+  background-color: #faf9f6;
+  border: solid;
+  border-top: none;
+  cursor: pointer;
+}
+.pokedex .pokemonCard .speed {
+  position: absolute;
+  margin-left: 186px;
+  margin-top: -25px;
+}
+.pokedex .pokemonCard .speed .speed-img {
+  height: 15px;
+}
+
+.pokedexModal {
+  border: 4px solid black;
+  border-radius: 24px 24px 0 0;
+  width: fit-content;
+  margin-bottom: 30px;
+  position: absolute;
+  top: 7%;
+  left: 50%;
+  transform: translate(-50%);
+  position: fixed;
+  background-color: #fff;
+  width: 800px;
+}
+.pokedexModal .title {
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 4px solid black;
+  border-radius: 18px 18px 0 0;
+  background-color: #000;
+}
+.pokedexModal .title .pokemonId {
+  color: #ffab08;
+  font-size: 24px;
+}
+.pokedexModal .title .pokemonName {
+  text-align: center;
+  color: #ffab08;
+  font-size: 36px;
+}
+.pokedexModal .title .pokedexBtn {
+  display: flex;
+  width: 80px;
+  justify-content: space-between;
+  align-items: center;
+}
+.pokedexModal .title .pokedexBtn .favoris {
+  height: 30px;
+}
+.pokedexModal .title .pokedexBtn .delete {
+  height: 35px;
+  filter: invert(100%) sepia(100%) saturate(1%) hue-rotate(340deg) brightness(104%) contrast(101%);
+}
+.pokedexModal .test {
+  width: 100%;
+  display: flex;
+  border-bottom: 4px solid black;
+}
+.pokedexModal .test .img-pokemon {
+  width: 400px;
+  border-right: 4px solid black;
+}
+.pokedexModal .test .infoBox {
+  width: 400px;
+  padding: 20px;
+}
+.pokedexModal .test .infoBox .stats {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.pokedexModal .test .infoBox .stats div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pokedexModal .test .infoBox .stats div .stats-img {
+  height: 25px;
+}
+.pokedexModal .test .infoBox .stats div p {
+  margin: 0 0 15px 0;
+}
+.pokedexModal .test .infoBox .types {
+  display: flex;
+  justify-content: center;
+}
+.pokedexModal .test .infoBox .types div {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+.pokedexModal .test .infoBox .types div img {
+  height: 25px;
+  margin-right: 8px;
+}
+.pokedexModal .comment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.pokedexModal .comment .showComment {
+  background-color: #003da1;
+}
+.pokedexModal .comment .commentField {
+  width: 300px;
+  height: 50px;
+  resize: none;
+  overflow: auto;
+  margin-bottom: 20px;
+}
+.pokedexModal .comment #btn-back {
+  position: absolute;
+  top: 30%;
+  left: 2%;
+  width: 45px;
+  cursor: pointer;
+  transition: filter 0.3s ease;
+  filter: invert(72%) sepia(14%) saturate(5075%) hue-rotate(309deg) brightness(101%) contrast(88%);
+}
+.pokedexModal .comment #btn-back:hover {
+  filter: invert(15%) sepia(49%) saturate(7483%) hue-rotate(359deg) brightness(102%) contrast(125%);
+}
+
+history-log {
+  background: white;
+  padding: 10px 20px;
+  display: block;
+  width: 600px;
+  margin: 75px auto 150px auto;
+  border-radius: 25px;
+  padding: 25px 25px;
+  box-shadow: 0px 0px 30px black;
+  margin-bottom: 200px;
+}
+history-log table {
+  border-spacing: 1px;
+  width: 100%;
+}
+history-log table thead {
+  background-color: #ffcb08;
+}
+history-log table thead th {
+  padding: 20px;
+  text-align: center;
+}
+history-log table thead th:first-child {
+  border-radius: 20px 0 0 0;
+}
+history-log table thead th:last-child {
+  border-radius: 0 20px 0 0;
+}
+history-log table tbody {
+  background-color: #efefef;
+}
+history-log table tbody tr td {
+  padding: 20px;
+  text-align: center;
+  line-height: 35px;
+}
+history-log table tbody tr td:last-child {
+  border-right: 0;
+}
+history-log table tbody tr:nth-of-type(odd) {
+  background-color: #efefef;
+}
+history-log table tbody tr:nth-of-type(even) {
+  background-color: #ddd;
+}
+
+/*# sourceMappingURL=style.css.map */

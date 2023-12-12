@@ -1,0 +1,17 @@
+{
+  "name": "tpk-sass-base",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "sass --watch ./assets/sass/main.scss:./assets/css/style.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "sass": "^1.49.7"
+  },
+  "devDependencies": {
+    "prettier": "^2.5.1"
+  }
+}
