@@ -2,17 +2,47 @@ import { insertCaptureModal } from "../utils/capture.js";
 import { pokemonListInit } from "../utils/list.js";
 import { randomNumber } from "../utils/util.js";
 
+const list = localStorage.getItem('pokemonList');
+let isButtonDisabled = false;
+
 export default class WildList extends HTMLElement{
-    constructor(){
+    constructor(list, isButtonDisabled){
         super();
-        const list = localStorage.getItem('pokemonList');
+        this.list = list;
+        this.isButtonDisabled = isButtonDisabled;
         if(!list){
             pokemonListInit();
         }
     }
 
     connectedCallback(){
-        this.render();
+        if(!list){
+            this.preRender();
+            setTimeout(() => {
+                this.render();
+            }, 2000);
+        }else{
+            this.render();
+        }
+    }
+
+    preRender(){
+        this.innerHTML = `
+            <div id="reloadWildList"><img class="rotate-img" src="./public/img/refresh.png"></div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Numéro</th>
+                        <th>Sprite</th>
+                        <th>Nom</th>
+                        <th>Types</th>
+                    </tr>
+                </thead>
+                <tbody class="wildListBody">
+                </tbody>
+            </table>
+            <div class="preload"><img src="./public/img/simple_pokeball.gif"</div>
+        `;
     }
 
     render(){
@@ -63,10 +93,9 @@ export default class WildList extends HTMLElement{
     }
 
     reloadList(event){
-        const reloadBtn = event.target;
+        const reloadBtn = event.target.closest('#reloadWildList');
         const reloadIcon = document.querySelector('.rotate-img');
         const tabBody = document.querySelector('.wildListBody');
-        let isButtonDisabled = false;
         if(!isButtonDisabled){
             isButtonDisabled = true;
             reloadBtn.classList.toggle('inactive');

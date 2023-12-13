@@ -1,5 +1,7 @@
 import { favToggle } from "../utils/favoris.js";
 import { deleteOnePokedexEntry } from "../utils/pokedex.js";
+import { getActiveUser, getUserById, patchUser } from "../utils/user.js";
+import { updateTotalCount } from "../utils/util.js";
 
 export default class Title extends HTMLElement{
     constructor(){
@@ -29,13 +31,25 @@ export default class Title extends HTMLElement{
     setupListenners(){
         const card = this.closest('pokedexcard-comp');
         const detail = this.closest('pokedexdetail-comp');
-        const uid = `${card ? card.getAttribute('uniqueid') : detail.getAttribute('uniqueid')}`
+        const uid = `${card ? card.getAttribute('uniqueid') : detail.getAttribute('uniqueid')}`;
+
         this.querySelector('.favoris').addEventListener('click',()=>{
-            favToggle(uid);
+            favToggle(Number(uid));
         });
 
         this.querySelector('.delete').addEventListener('click',()=>{
-            deleteOnePokedexEntry(uid);
+            const isConfirmed = window.confirm("Voulez-vous vraiment relâcher ce pokemon ?");
+            const userId = getActiveUser();
+            const userData = getUserById(userId);
+
+            if(isConfirmed){
+                deleteOnePokedexEntry(uid);
+                if(detail) detail.remove();
+                document.querySelector(`pokedexcard-comp[uniqueid="${uid}"]`).remove();
+                userData.total -= 1;
+                patchUser(userId, userData);
+                updateTotalCount();
+            }
         });
     }
 }

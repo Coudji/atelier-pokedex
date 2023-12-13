@@ -1,5 +1,4 @@
-import { getUserById, switchActiveUser } from "../utils/user.js";
-import { updateCatchCount, updateEscapeCount } from "../utils/util.js";
+import { getActiveUser, getUserById, switchActiveUser } from "../utils/user.js";
 
 export default class UserCard extends HTMLElement{
     constructor(){
@@ -8,12 +7,16 @@ export default class UserCard extends HTMLElement{
 
     connectedCallback(){
         this.render();
-        this.setupListenners();
     }
 
     render(){
-        const userId = this.getAttribute('userid');
-        const userData = getUserById(Number(userId));
+        const userId = Number(this.getAttribute('userid'));
+        const currentUser = getActiveUser();
+        const userData = getUserById(userId);
+
+        if(userId === currentUser){
+            this.classList.add('currentUser')
+        }
 
         const cardMarkup = `
             <img src="${userData.img}" alt="${userData.name}"/>
@@ -22,6 +25,7 @@ export default class UserCard extends HTMLElement{
         `;
 
         this.innerHTML = cardMarkup;
+        this.setupListenners();
     }
 
     setupListenners(){

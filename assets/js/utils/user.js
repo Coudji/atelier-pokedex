@@ -1,4 +1,4 @@
-import { actualisePokedex, updateCatchCount, updateEscapeCount } from "./util.js";
+import { actualiseHistory, actualisePokedex, actualisePokemonList, updateCatchCount, updateEscapeCount, updateTotalCount } from "./util.js";
 
 export function createUsers(){
     const mockUsers = [
@@ -59,10 +59,12 @@ export function setActiveUser(id){
 export function switchActiveUser(event){
     const card = event.target.closest('usercard-comp');
     const userId = card.getAttribute('userid');
-    setActiveUser(Number(userId));
     document.querySelector('.currentUser').classList.remove('currentUser');
     card.classList.add('currentUser');
+    setActiveUser(Number(userId));
     updateCatchCount();
     updateEscapeCount();
     actualisePokedex();
+    actualisePokemonList();
+    actualiseHistory();
 }

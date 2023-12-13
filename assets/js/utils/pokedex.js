@@ -57,7 +57,7 @@ export function patchPokedexEntry(uid, updatedData){
 
 export function deleteOnePokedexEntry(uid){
     const pokedex = getPokedex();
-    const indexToDelete = Number(getIndex(uid));
+    const indexToDelete = Number(getIndex(Number(uid)));
     pokedex.splice(indexToDelete, 1);
     savePokedex(pokedex);
 }
@@ -66,28 +66,10 @@ export function deleteOnePokedexEntry(uid){
 
 export function displayPokemonDetails(event){
     const uid = Number(event.target.closest('pokedexcard-comp').getAttribute('uniqueid'));
-
     const body = document.querySelector('body');
     const modalContainer = document.createElement('pokedexdetail-comp');
     modalContainer.setAttribute('uniqueid',uid);
     body.appendChild(modalContainer);
-
-    
-    modalContainer.querySelector('.delete').addEventListener('click',(event)=>{
-        const isConfirmed = window.confirm("Voulez-vous vraiment relâcher ce pokemon ?");
-        const userId = getActiveUser();
-        const userData = getUserById(userId);
-
-        if(isConfirmed){
-            deleteOnePokedexEntry(uid);
-            modalContainer.remove();
-            const card = document.querySelector(`[uniqueid="${uid}"]`);
-            card.remove();
-            userData.total -= 1;
-            patchUser(userId, userData);
-            updateTotalCount();
-        }
-    })
 }
 
 

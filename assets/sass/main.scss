@@ -79,6 +79,16 @@ counter-comp {
   align-self: center;
 }
 
+.preload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    border-radius: 50%;
+  }
+}
+
 pokemon-list-comp,
 history-comp {
   background: white;

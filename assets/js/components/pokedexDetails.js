@@ -55,6 +55,17 @@ export default class PokedexDetail extends HTMLElement{
             </div>
         `;
 
+        const evolutionMarkup = `
+            ${pokemonData.evoLine.map((pokemon)=> {
+                return `
+                    <div>
+                        <p>${pokemon.name}</p>
+                        <img src="${pokemon.sprite}">
+                    </div>
+                `
+            }).join("")}
+        `;
+
         const displayMarkup = `
             <title-comp pkm-data='${titleData}'></title-comp>
             <div class="test">
@@ -65,6 +76,9 @@ export default class PokedexDetail extends HTMLElement{
                     </div>
                     <div class="types">
                         ${typesMarkup}
+                    </div>
+                    <div class="evoline">
+                        ${evolutionMarkup}
                     </div>
                 </div>
             </div>

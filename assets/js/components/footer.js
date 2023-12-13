@@ -1,4 +1,4 @@
-import { getActiveUser, getUsers } from "../utils/user.js";
+import { getUsers } from "../utils/user.js";
 
 export default class Footer extends HTMLElement{
     constructor(){
@@ -10,13 +10,13 @@ export default class Footer extends HTMLElement{
     }
 
     render(){
-        const activeUser = getActiveUser();
         const usersData = getUsers();
-        const userCards = usersData.map((user) => {
+       
+        const userCards = usersData.map((user)=>{
             return `
-                <usercard-comp class="${activeUser === user.id ? "currentUser" : ""}" userid="${user.id}"></usercard-comp>
+                <usercard-comp userid="${user.id}"></usercard-comp>
             `
-        }).join('');
+        }).join("");
 
         this.innerHTML = userCards;
     }

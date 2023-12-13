@@ -27,7 +27,8 @@ export function updateEscapeCount(){
 export function updateTotalCount(){
     const userId = getActiveUser();
     const userData = getUserById(userId)
-    const counter = document.querySelector('counter-comp.total');
+    const card = document.querySelector(`usercard-comp[userid="${userId}"]`);
+    const counter = card.querySelector('counter-comp.total');
     counter.setAttribute('val',userData.total);
 }
 
@@ -36,6 +37,16 @@ export function actualisePokedex(){
     if(pokedexComponent){
         pokedexComponent.render();
     }
+}
+
+export function actualisePokemonList(){
+    const pokemonList = document.querySelector('pokemon-list-comp');
+    if(pokemonList) pokemonList.render();
+}
+
+export function actualiseHistory(){
+    const history = document.querySelector('history-comp');
+    if(history) history.render();
 }
 
 export function dateFormat(){

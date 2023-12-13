@@ -34,7 +34,7 @@ function makeCleanList(rawList){
 }
 
 //putain merci chatGPT car là c'était tendu pour mon petit cerveau
-function makeEvoLine(pokedexId, rawList) {
+/* function makeEvoLine(pokedexId, rawList) {
     const pokemonData = rawList.find(pokemon => pokemon.pokedexId === pokedexId);
 
     if (!pokemonData) {
@@ -76,7 +76,57 @@ function makeEvoLine(pokedexId, rawList) {
     }
 
     return findEvolutionChain(pokemonData);
+} */
+
+function makeEvoLine(pokedexId, rawList) {
+    const pokemonData = rawList.find(pokemon => pokemon.pokedexId === pokedexId);
+
+    if (!pokemonData) {
+        return [];
+    }
+
+    const visitedPokemon = new Set();
+
+    function findEvolutionChain(pokemon, chain = []) {
+        if (visitedPokemon.has(pokemon.pokedexId)) {
+            return chain;
+        }
+
+        visitedPokemon.add(pokemon.pokedexId);
+
+        if (pokemon.apiPreEvolution) {
+            const preEvolution = rawList.find(p => p.name === pokemon.apiPreEvolution.name);
+            if (preEvolution) {
+                findEvolutionChain(preEvolution, chain);
+            }
+        }
+
+        const evolutionLevel = chain.length; // Niveau d'évolution dynamique
+
+        chain.push({
+            "pokedexId": pokemon.pokedexId,
+            "name": pokemon.name,
+            "sprite": pokemon.sprite,
+            "evolutionLevel": evolutionLevel,
+        });
+
+        if (pokemon.apiEvolutions && pokemon.apiEvolutions.length > 0) {
+            for (const evolution of pokemon.apiEvolutions) {
+                const evolvedPokemon = rawList.find(p => p.name === evolution.name);
+                if (evolvedPokemon) {
+                    findEvolutionChain(evolvedPokemon, chain);
+                }
+            }
+        }
+
+        return chain;
+    }
+
+    return findEvolutionChain(pokemonData);
 }
+
+
+
 
 function checkRemaningSpace(){
     if ('localStorage' in window && window['localStorage'] !== null) {
