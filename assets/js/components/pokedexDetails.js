@@ -55,16 +55,41 @@ export default class PokedexDetail extends HTMLElement{
             </div>
         `;
 
-        const evolutionMarkup = `
+        /* const evolutionMarkup = `
             ${pokemonData.evoLine.map((pokemon)=> {
                 return `
                     <div>
-                        <p>${pokemon.name}</p>
-                        <img src="${pokemon.sprite}">
+                    <img src="${pokemon.sprite}">
+                    <p>${pokemon.pokedexId} - ${pokemon.name}</p>
                     </div>
                 `
             }).join("")}
-        `;
+        `; */
+
+        const evolutionLevels = pokemonData.evoLine.reduce((levels, pokemon) => {
+            const level = pokemon.evolutionLevel || 0; 
+            if (!levels[level]) {
+                levels[level] = [];
+            }
+            levels[level].push(pokemon);
+            return levels;
+        }, {});
+        
+        const evolutionMarkup = Object.keys(evolutionLevels).map((level) => {
+            return `
+                <div>
+                    <h3>Level ${level}</h3>
+                    ${evolutionLevels[level].map((pokemon) => {
+                        return `
+                            <div>
+                                <img src="${pokemon.sprite}">
+                                <p>${pokemon.pokedexId} - ${pokemon.name}</p>
+                            </div>
+                        `;
+                    }).join("")}
+                </div>
+            `;
+        }).join("");
 
         const displayMarkup = `
             <title-comp pkm-data='${titleData}'></title-comp>

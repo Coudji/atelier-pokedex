@@ -33,98 +33,73 @@ function makeCleanList(rawList){
     return cleanList;
 }
 
-//putain merci chatGPT car là c'était tendu pour mon petit cerveau
-/* function makeEvoLine(pokedexId, rawList) {
-    const pokemonData = rawList.find(pokemon => pokemon.pokedexId === pokedexId);
-
-    if (!pokemonData) {
-        return [];
-    }
-
-    const visitedPokemon = new Set();
-
-    function findEvolutionChain(pokemon, chain = []) {
-        if (visitedPokemon.has(pokemon.pokedexId)) {
-            return chain;
-        }
-
-        visitedPokemon.add(pokemon.pokedexId);
-
-        chain.push({
-            "pokedexId": pokemon.pokedexId,
-            "name": pokemon.name,
-            "sprite": pokemon.sprite,
-        });
-
-        if (pokemon.apiPreEvolution) {
-            const preEvolution = rawList.find(p => p.name === pokemon.apiPreEvolution.name);
-            if (preEvolution) {
-                findEvolutionChain(preEvolution, chain);
-            }
-        }
-
-        if (pokemon.apiEvolutions && pokemon.apiEvolutions.length > 0) {
-            for (const evolution of pokemon.apiEvolutions) {
-                const evolvedPokemon = rawList.find(p => p.name === evolution.name);
-                if (evolvedPokemon) {
-                    findEvolutionChain(evolvedPokemon, chain);
-                }
-            }
-        }
-
-        return chain;
-    }
-
-    return findEvolutionChain(pokemonData);
-} */
-
 function makeEvoLine(pokedexId, rawList) {
     const pokemonData = rawList.find(pokemon => pokemon.pokedexId === pokedexId);
-
-    if (!pokemonData) {
-        return [];
-    }
-
-    const visitedPokemon = new Set();
-
-    function findEvolutionChain(pokemon, chain = []) {
-        if (visitedPokemon.has(pokemon.pokedexId)) {
-            return chain;
-        }
-
-        visitedPokemon.add(pokemon.pokedexId);
-
-        if (pokemon.apiPreEvolution) {
-            const preEvolution = rawList.find(p => p.name === pokemon.apiPreEvolution.name);
-            if (preEvolution) {
-                findEvolutionChain(preEvolution, chain);
-            }
-        }
-
-        const evolutionLevel = chain.length; // Niveau d'évolution dynamique
-
-        chain.push({
-            "pokedexId": pokemon.pokedexId,
-            "name": pokemon.name,
-            "sprite": pokemon.sprite,
-            "evolutionLevel": evolutionLevel,
-        });
-
-        if (pokemon.apiEvolutions && pokemon.apiEvolutions.length > 0) {
-            for (const evolution of pokemon.apiEvolutions) {
-                const evolvedPokemon = rawList.find(p => p.name === evolution.name);
-                if (evolvedPokemon) {
-                    findEvolutionChain(evolvedPokemon, chain);
-                }
-            }
-        }
-
-        return chain;
-    }
-
-    return findEvolutionChain(pokemonData);
+    const evolineTab = findBasePokemon(pokemonData, rawList);
+    
+    return evolineTab;
 }
 
+function findBasePokemon(pokemonData, rawList) {
+    const evolineTab = [];
+    const preEvolution = rawList.find(p => p.pokedexId === pokemonData.apiPreEvolution.pokedexIdd);
+    
+    if (preEvolution) {
+        return findBasePokemon(preEvolution, rawList, evolineTab);
+    } else {
+        const isAlreadyAdded = evolineTab.some(pokemon => pokemon.pokedexId === pokemonData.pokedexId);
+        if (!isAlreadyAdded) {
+            evolineTab.push({
+                "pokedexId": pokemonData.pokedexId,
+                "name": pokemonData.name,
+                "sprite": pokemonData.sprite,
+                "evolutionLevel": 0,
+            });
+            evolineTab.push(...findLevelOneEvolution(pokemonData, rawList, evolineTab));
+        }
+        return evolineTab;
+    }
+}
+
+function findLevelOneEvolution(pokemonData, rawList, evolineTab) {
+    const levelOneTab = [];
+    if (pokemonData.apiEvolutions && Array.isArray(pokemonData.apiEvolutions)) {
+        pokemonData.apiEvolutions.forEach(evolution => {
+            const evolutionData = rawList.find(p => p.pokedexId === evolution.pokedexId);
+            const isAlreadyAdded = evolineTab.some(pokemon => pokemon.pokedexId === evolutionData.pokedexId);
+            if (!isAlreadyAdded) {
+                levelOneTab.push({
+                    "pokedexId": evolutionData.pokedexId,
+                    "name": evolutionData.name,
+                    "sprite": evolutionData.sprite,
+                    "evolutionLevel": 1,
+                });
+                levelOneTab.push(...findLevelTwoEvolution(evolutionData, rawList, evolineTab));
+            }
+        });
+    }
+    return levelOneTab;
+}
+
+function findLevelTwoEvolution(evolutionData, rawList, evolineTab) {
+    const levelTwoTab = [];
+    if (evolutionData.apiEvolutions && Array.isArray(evolutionData.apiEvolutions)) {
+        evolutionData.apiEvolutions.forEach(secondEvolution => {
+            const secondEvolutionData = rawList.find(p => p.pokedexId === secondEvolution.pokedexId);
+            const isAlreadyAdded = evolineTab.some(pokemon => pokemon.pokedexId === secondEvolutionData.pokedexId);
+
+            if (!isAlreadyAdded) {
+                levelTwoTab.push({
+                    "pokedexId": secondEvolutionData.pokedexId,
+                    "name": secondEvolutionData.name,
+                    "sprite": secondEvolutionData.sprite,
+                    "evolutionLevel": 2,
+                });
+            }
+        });
+    }
+    return levelTwoTab;
+}
 
 
 

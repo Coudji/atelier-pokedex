@@ -108,6 +108,7 @@ export default class WildList extends HTMLElement{
                 reloadIcon.classList.remove('rotate');
             }, { once: true });
             tabBody.innerHTML = this.generateRowMarkup();
+            this.setupListenners();
         }
     }
 
