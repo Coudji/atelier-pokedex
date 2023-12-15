@@ -55,17 +55,6 @@ export default class PokedexDetail extends HTMLElement{
             </div>
         `;
 
-        /* const evolutionMarkup = `
-            ${pokemonData.evoLine.map((pokemon)=> {
-                return `
-                    <div>
-                    <img src="${pokemon.sprite}">
-                    <p>${pokemon.pokedexId} - ${pokemon.name}</p>
-                    </div>
-                `
-            }).join("")}
-        `; */
-
         const evolutionLevels = pokemonData.evoLine.reduce((levels, pokemon) => {
             const level = pokemon.evolutionLevel || 0; 
             if (!levels[level]) {
@@ -79,6 +68,7 @@ export default class PokedexDetail extends HTMLElement{
             return `
                 <div>
                     <h3>Level ${level}</h3>
+                    <div>
                     ${evolutionLevels[level].map((pokemon) => {
                         return `
                             <div>
@@ -87,13 +77,14 @@ export default class PokedexDetail extends HTMLElement{
                             </div>
                         `;
                     }).join("")}
+                    </div>
                 </div>
             `;
         }).join("");
 
         const displayMarkup = `
             <title-comp pkm-data='${titleData}'></title-comp>
-            <div class="test">
+            <div class="detailModal">
                 <img src=${pokemonData.image} alt="Image de ${pokemonData.name}" class="img-pokemon">
                 <div class="infoBox">
                     <div class="stats">
