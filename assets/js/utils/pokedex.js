@@ -50,7 +50,7 @@ function getIndex(uid){
 
 export function patchPokedexEntry(uid, updatedData){
     const pokedex = getPokedex();
-    const indexToUpdate = getIndex(uid);
+    const indexToUpdate = getIndex(Number(uid));
     pokedex[indexToUpdate] = { ...pokedex[indexToUpdate], ...updatedData };
     savePokedex(pokedex);
 }
@@ -61,8 +61,6 @@ export function deleteOnePokedexEntry(uid){
     pokedex.splice(indexToDelete, 1);
     savePokedex(pokedex);
 }
-
-
 
 export function displayPokemonDetails(event){
     const uid = Number(event.target.closest('pokedexcard-comp').getAttribute('uniqueid'));

@@ -515,6 +515,13 @@ pokedexdetail-comp {
     position: relative;
     .showComment{
       background-color: #003da1;
+      color: #ffcb08;
+      margin: 10px 0;
+      padding: 6px 18px;
+      border-radius: 25px;
+      width: 264px;
+      overflow-wrap: break-word;
+      text-align: center;
     }
     .commentField{
       width: 300px;

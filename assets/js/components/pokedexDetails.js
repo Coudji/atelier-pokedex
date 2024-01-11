@@ -1,4 +1,4 @@
-import { getPokedexEntryById } from "../utils/pokedex.js";
+import { getPokedexEntryById, patchPokedexEntry } from "../utils/pokedex.js";
 
 export default class PokedexDetail extends HTMLElement{
     constructor(){
@@ -99,8 +99,8 @@ export default class PokedexDetail extends HTMLElement{
                 </div>
             </div>
             <div class="comment">
-                    <p class="showComment">${pokemonData.comment ? pokemonData.comment : ''}</p>
-                    <textarea class="commentField"></textarea>
+                    <p class="showComment">${pokemonData.comment ? pokemonData.comment : 'Espace commentaire'}</p>
+                    <textarea class="commentField" maxlength="151" placeholder="Appuyez sur 'Enter' pour valider."></textarea>
                     <img src="./public/img/back-arrow.svg" alt="Capturer Pokemon" id="btn-back">
             </div>
         `;
@@ -111,6 +111,16 @@ export default class PokedexDetail extends HTMLElement{
     setupListenners(){
         this.querySelector('#btn-back').addEventListener('click',()=>{
             this.remove()
-        })
+        });
+
+        this.querySelector('.commentField').addEventListener("keypress",(event) => {
+            if(event.key === 'Enter'){
+                const uid = this.getAttribute('uniqueid');
+                event.preventDefault();
+                patchPokedexEntry(uid,{comment:`${event.target.value}`});
+                this.render();
+                this.setupListenners();
+            }
+        });
     }
 }
