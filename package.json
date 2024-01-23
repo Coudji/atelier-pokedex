@@ -1,17 +1,17 @@
 {
-  "name": "tpk-sass-base",
-  "version": "1.0.0",
-  "description": "",
-  "scripts": {
-    "dev": "sass --watch ./assets/sass/main.scss:./assets/css/style.css"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "sass": "^1.49.7"
-  },
-  "devDependencies": {
-    "prettier": "^2.5.1"
-  }
+	"name": "atelier-pokedex",
+	"version": "1.0.0",
+	"description": "Exercice dans le cadre de la formation Javascript backend 2023-2024 de Technocité.",
+	"scripts": {
+		"dev": "sass --watch ./assets/sass/main.scss:./assets/css/style.css"
+	},
+	"keywords": [],
+	"author": "Coudji",
+	"license": "MIT",
+	"dependencies": {
+		"sass": "^1.49.7"
+	},
+	"devDependencies": {
+		"prettier": "^2.5.1"
+	}
 }
