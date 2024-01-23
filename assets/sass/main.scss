@@ -334,14 +334,15 @@ pokedex-comp {
 		margin: 5px 0 25px 15px;
 
 		title-comp {
-			background-color: #faf9f6;
+			background-color: black;
+			color: #fff;
 			width: 220px;
 			display: flex;
 			justify-items: center;
 			justify-content: space-between;
 			padding: 10px;
 			border-radius: 25px 25px 0 0;
-			border: solid;
+			border: solid black;
 
 			.pokemonId {
 				float: left;
@@ -362,6 +363,8 @@ pokedex-comp {
 				.delete {
 					height: 19px;
 					cursor: pointer;
+					filter: invert(100%) sepia(100%) saturate(1%) hue-rotate(340deg)
+						brightness(104%) contrast(101%);
 				}
 				.active {
 					margin: 2px 0 2px 0;
@@ -388,6 +391,15 @@ pokedex-comp {
 			}
 		}
 	}
+}
+
+.hold {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	backdrop-filter: blur(5px);
 }
 
 pokedexdetail-comp {
